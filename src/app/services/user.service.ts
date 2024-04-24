@@ -18,4 +18,12 @@ export class UserService {
       }
     )
   }
+
+  forgotPassword(data: any){
+    return this.httpsClient.post(this.url+
+      "/user/forgotPassword",data,{
+        headers: new HttpHeaders().set('Content-Type', 'application/json')
+      }
+    )
+  }
 }
