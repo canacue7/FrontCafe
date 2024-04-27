@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
       password: formData.password
     }
     this.userService.login(data).subscribe((response:any)=>{
+      console.log('entró a handle submit service')
       this.ngxService.stop();
       this.dialogRef.close();
       localStorage.setItem('token',response.token);
@@ -51,6 +52,7 @@ export class LoginComponent implements OnInit {
         this.responseMessage = GlobalConstants.genericError
       }
       this.snackbarService.openSnackBar(this.responseMessage,GlobalConstants.error);
+      this.ngxService.stop();
     });
   }
 

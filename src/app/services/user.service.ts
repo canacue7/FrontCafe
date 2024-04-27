@@ -34,4 +34,8 @@ export class UserService {
       }
     )
   }
+
+  checkToken(){
+    return this.httpsClient.get(this.url+"/user/checkToken");
+  }
 }
