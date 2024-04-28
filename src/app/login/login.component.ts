@@ -48,11 +48,11 @@ export class LoginComponent implements OnInit {
     },error=>{
       if(error.error?.message){
         this.responseMessage = error.error?.message;
+        this.ngxService.stop();
       }else{
         this.responseMessage = GlobalConstants.genericError
       }
       this.snackbarService.openSnackBar(this.responseMessage,GlobalConstants.error);
-      this.ngxService.stop();
     });
   }
 
