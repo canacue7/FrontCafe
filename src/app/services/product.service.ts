@@ -41,7 +41,7 @@ export class ProductService {
 
   delete(id:any){
     return this.httpClient.post(this.url+
-      "/product/detele/"+id,{
+      "/product/delete/"+id,{
         headers:new HttpHeaders().set('Content-Type','application/json')
       }
     )
