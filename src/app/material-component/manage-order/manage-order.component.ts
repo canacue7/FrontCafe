@@ -41,6 +41,7 @@ export class ManageOrderComponent implements OnInit {
       email:[null, [Validators.required, Validators.pattern(GlobalConstants.emailRegex)]],
       contactNumber:[null, [Validators.required, Validators.pattern(GlobalConstants.contactNumberRegex)]],
       paymentMethod:[null, [Validators.required]],
+      product:[null, [Validators.required]],
       category:[null,[Validators.required]],
       quantity:[null,[Validators.required]],
       price:[null,[Validators.required]],
@@ -86,7 +87,7 @@ export class ManageOrderComponent implements OnInit {
       this.price = response.price;
       this.manageOrderForm.controls['price'].setValue(response.price);
       this.manageOrderForm.controls['quantity'].setValue('1');
-      this.manageOrderForm.controls['price'].setValue(this.price * 1);
+      this.manageOrderForm.controls['total'].setValue(this.price * 1);
     },(error:any)=>{
       console.log(error);
       if(error.error?.message){
@@ -98,7 +99,7 @@ export class ManageOrderComponent implements OnInit {
     })
   }
 
-  setQuntiyt(value:any){
+  setQuntity(value:any){
     let temp = this.manageOrderForm.controls['quantity'].value;
     if(temp > 0){
       this.manageOrderForm.controls['total'].setValue(this.manageOrderForm.controls['quantity'].value * this.manageOrderForm.controls['price'].value); 
