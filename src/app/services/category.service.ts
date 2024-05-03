@@ -31,4 +31,8 @@ export class CategoryService {
     return this.httpsClient.get(this.url+"/category/get");
   }
 
+  getFilteredCategorys(){
+    return this.httpsClient.get(this.url+"/category/get?filterValue=true");
+  }
+
 }
