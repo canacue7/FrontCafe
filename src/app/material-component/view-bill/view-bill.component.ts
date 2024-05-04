@@ -7,6 +7,7 @@ import { BillService } from 'src/app/services/bill.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
 import { ViewBillProductsComponent } from '../dialog/view-bill-products/view-bill-products.component';
+import { ConfirmationComponent } from '../dialog/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-view-bill',
@@ -66,7 +67,38 @@ export class ViewBillComponent implements OnInit {
     })
   }
 
-  handleDeleteAction(value:any){}
+  handleDeleteAction(value:any){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      message: 'delete'+value.name+'bill',
+      confirmation : true
+    };
+    const dialogRef = this.dialog.open(ConfirmationComponent, dialogConfig);
+    const sub = dialogRef.componentInstance.onEmitStatusChange.subscribe(response=>{
+      this.ngxService.start();
+      this.deleteBill(value.id);
+      dialogRef.close()
+    })
+
+  }
+
+  deleteBill(id:any){
+    this.billService.delete(id).subscribe((response:any)=>{
+      this.ngxService.stop();
+      this.tableData();
+      this.responseMessage = response?.message;
+      this.snackbarService.openSnackBar(this.responseMessage,"success")
+    },error=>{
+      this.ngxService.stop();
+      console.log(error);
+      if(error.error?.message){
+        this.responseMessage = error.error?.message;
+      }else{
+        this.responseMessage = GlobalConstants.genericError;
+      }
+      this.snackbarService.openSnackBar(this.responseMessage, GlobalConstants.error);
+    })
+  }
 
   downloadReportAction(value: any){
 
