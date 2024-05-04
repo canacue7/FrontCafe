@@ -8,6 +8,7 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
 import { ViewBillProductsComponent } from '../dialog/view-bill-products/view-bill-products.component';
 import { ConfirmationComponent } from '../dialog/confirmation/confirmation.component';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-view-bill',
@@ -101,7 +102,24 @@ export class ViewBillComponent implements OnInit {
   }
 
   downloadReportAction(value: any){
+    this.ngxService.start();
+    let data = {
+      name: value.name,
+      email: value.email,
+      uuid: value.uuid,
+      contactNumber: value.contactNumber,
+      paymentMethod: value.paymentMethod,
+      totalAmount: value.total.toString(),
+      productDetails: value.productDetail
+    }
+    this.downloadFile(value.uuid,data);
+  }
 
+  downloadFile(fileName: string, data: any){
+    this.billService.getPdf(data).subscribe(response=>{
+      saveAs(response,fileName+'.pdf');
+      this.ngxService.stop();
+    })
   }
 
 }
